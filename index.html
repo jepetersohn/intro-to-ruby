@@ -811,7 +811,7 @@ letters.pop
           <h2>Hashes</h2>
           <p>In our metaphor we give each bucket a name. This is the <strong>key</strong>. The item inside the bucket is its <strong>value</strong>. So, a Ruby hash is a collection of <strong>key value pairs</strong>.</p>
           <img src="img/object-buckets.jpg">
-          <aside class="notes">If this collection of buckets was an object, what do you think it would represent?</aside>
+          <aside class="notes">If this collection of buckets was a hash, what do you think it would represent?</aside>
         </section>
 
         <section>
@@ -819,11 +819,37 @@ letters.pop
           <p>Let's <strong>instantiate</strong> a hash in Ruby:</p>
           <pre>
             <code class="ruby">
+person = {:name => "Sam", :age => 28, :sex => "male"}
+            </code>
+          </pre>
+          <p>This <strong>hash</strong> contains three <strong>key value pairs</strong> and the hash is stored in the local variable `person`.</p>
+          <aside class="notes">
+            <ul>
+              <li>What data type are the keys in this hash?</li>
+              <li>What data type are the values in this hash?</li>
+            </ul></aside>
+        </section>
+
+        <section>
+          <h2>Hashes</h2>
+          <p>In Ruby, you can use any data type for keys in a hash, but it is common to use <strong>symbols</strong>.</p>
+          <pre>
+            <code class="ruby">
+person = {:name => "Sam", :age => 28, :sex => "male"}
+            </code>
+          </pre>
+          <p>The arrows separating the keys and values are colloquially known as <strong>hash rockets</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Hashes</h2>
+          <p>Because it is so common to use symbols as keys in hashes, there is a shortcut to create these hashes without using the hash rocket notation:</p>
+          <pre>
+            <code class="ruby">
 person = {name: "Sam", age: 28, sex: "male"}
             </code>
           </pre>
-          <p>This <strong>hash</strong> contains three <strong>key value pairs</strong> and the object is stored in the local variable `person`.</p>
-          <aside class="notes">What data type are the values in this hash?</aside>
+          <p>This works in Ruby 1.9 and higher.</p>
         </section>
 
         <section>
@@ -833,90 +859,72 @@ person = {name: "Sam", age: 28, sex: "male"}
             <code class="ruby">
 person = {name: "Sam", age: 28, sex: "male"}
 
-letters["name"]  // returns "Sam"
+person[:name]  # returns "Sam"
             </code>
           </pre>
         </section>
 
         <section>
-          <h2>Objects</h2>
+          <h2>Hashes</h2>
           <h4>Updating values</h4>
           <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, sex: "male"};
-person.age = 29      // returns 29
+            <code class="ruby">
+person = {name: "Sam", age: 28, sex: "male"}
+person[:age] = 29
 
-person
-// now contains
+# person now contains:
 {name: "Sam", age: 29, sex: "male"}
 
-person.age           // returns 29
+person[:age]  # returns 29
             </code>
           </pre>
         </section>
 
         <section>
-          <h2>Objects</h2>
+          <h2>Hashes</h2>
           <h4>Inserting values</h4>
           <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, sex: "male"};
-person.gender = "cis male"  // returns "cis male"
+            <code class="ruby">
+person = {name: "Sam", age: 28, sex: "male"}
+person[:gender] = "cis male"
 
-person
-// now contains
+# person now contains
 {name: "Sam", age: 28, sex: "male", gender: "cis male"}
             </code>
           </pre>
         </section>
 
         <section>
-          <h2>Objects</h2>
+          <h2>Hashes</h2>
           <h4>Removing values</h4>
           <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, sex: "male", gender: "cis male"}
-delete person.sex // returns true
+            <code class="ruby">
+person = {name: "Sam", age: 28, sex: "male", gender: "cis male"}
+person.delete(:sex)  # returns "male"
 
-person
-// now contains
+# person now contains:
 {name: "Sam", age: 28, gender: "cis male"}
 
-person.sex        // returns undefined
+person[:sex]  # returns nil
             </code>
           </pre>
-          <p>The <strong>delete</strong> operator removes a <strong>key value pair</strong> from an object.</p>
+          <p>The <strong>delete</strong> method removes a <strong>key value pair</strong> from a hash and returns the value.</p>
+          <p>Note that if you try to <strong>access a key that doesn't exist</strong>, the hash will return <strong>nil</strong>.</p>
           <aside class="notes">
-            Why did I not call `delete` a method?
             It's relatively rare to use `delete`. Most often you are reading or accessing data. Second most, adding or inserting data. Third most, updating data. Rarely, deleting or removing data.
           </aside>
         </section>
 
         <section>
-          <h2>Taxonomy</h2>
-          <p>We've been using <strong>dot notation</strong> when working with objects.</p>
-          <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, gender: "cis male"}
-
-person.name
-person.age
-person.gender
-            </code>
-          </pre>
-          <p>What type of thing does that suggest `name`, `age`, and `gender` are?</p>
-          <p class="fragment"><strong>properties</strong></p>
-        </section>
-
-        <section>
-          <h2>Taxonomy</h2>
-          <p>So what we generically call <strong>keys</strong> are specifically called <strong>properties</strong> in JavaScript objects.</p>
-          <p class="fragment">Also, these things we call <strong>objects</strong> in JavaScript can be called dictionaries, hashes, hash tables, or maps in other languages.</p>
+          <h2>Other names</h2>
+          <p>These things we call <strong>hashes</strong> in Ruby can be called dictionaries, hash tables, or maps in other languages.</p>
+          <p class="fragment">The closest equivalent to a Ruby hash in JavaScript is a <strong>JavaScript object</strong>.</p>
+          <p class="fragment">"Objects" in Ruby are more complex and we won't discuss them in this workshop.</p>
         </section>
 
         <section>
           <h1>omg let's build.</h1>
-          <p><a href="http://bit.ly/dbc-js-intro">bit.ly/dbc-js-intro</a></p>
+          <p><a href="">bit.ly</a></p>
           <aside class="notes">
             With your neighbor, model the following using the data types and structures you just learnt about:
             <ul>
