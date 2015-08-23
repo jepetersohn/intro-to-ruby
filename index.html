@@ -362,8 +362,27 @@ http://localhost:4567/hello
         </section>
 
         <section>
+          <h2>Symbols</h2>
+          <p><strong>Symbols</strong> in Ruby are similar to strings. They are also a collection of characters. This is what Ruby symbols look like:</p>
+          <pre>
+            <code class="ruby">
+:a_symbol
+
+:another_symbol
+
+:name
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Symbols</h2>
+          <p>Whereas strings are intended to be manipulated (for example, reversed), symbols can never change. Symbols are intended to be <strong>identifiers for things</strong>. We will see this when we talk about <strong>hashes</strong>.</p>
+        </section>
+
+        <section>
           <h2>Integers</h2>
-          <p>Integers are another very common data type that you will see in every language. This is what they look like in Ruby:</p>
+          <p><strong>Integers</strong> are another very common data type that you will see in every language. This is what they look like in Ruby:</p>
             <pre>
               <code class="ruby">
 42
@@ -377,10 +396,10 @@ http://localhost:4567/hello
 
         <section>
           <h2>Floats</h2>
-          <p>A float, or "floating point", is how computers represent numbers with fractional components. In Ruby, floats look like this:</p>
+          <p>A <strong>float</strong>, or "floating point", is how computers represent numbers with fractional components. In Ruby, floats look like this:</p>
           <pre>
               <code class="ruby">
-0.1
+1.1
 3.141592653589793
 5.5
 99.999
@@ -560,7 +579,7 @@ answer_to_the_ultimate_question = (num + other_num) * multiplier
             </code>
           </pre>
           <aside class="notes">
-            What value is stored in answerToTheUltimateQuestion?
+            What value is stored in answer_to_the_ultimate_question?
           </aside>
         </section>
 
@@ -598,13 +617,13 @@ answer_to_the_ultimate_question = (num + other_num) * multiplier
 
         <section>
           <h2>Arrays</h2>
-          <p>If we were to put the first eight characters of the alphabet into these buckets, it would look like this in JavaScript:</p>
+          <p>If we were to put the first eight characters of the alphabet into these buckets, it would look like this in Ruby:</p>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d","e","f","g","h"];
+            <code class="ruby">
+letters = ["a","b","c","d","e","f","g","h"]
             </code>
           </pre>
-          <p>An <strong>array</strong> of the characters "a" through "h" is now stored in the variable `letters`. This is an array of <strong>strings</strong>.</p>
+          <p>An <strong>array</strong> of the characters "a" through "h" is now stored in the local variable `letters`. This is an array of <strong>strings</strong>.</p>
         </section>
 
         <section>
@@ -645,10 +664,10 @@ var letters = ["a","b","c","d","e","f","g","h"];
           <h2>Arrays</h2>
           <h4>Accessing values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d","e","f","g","h"];
-letters[0] // returns "a"
-letters[7] // returns "h"
+            <code class="ruby">
+letters = ["a","b","c","d","e","f","g","h"]
+letters[0] # returns "a"
+letters[7] # returns "h"
             </code>
           </pre>
         </section>
@@ -657,11 +676,15 @@ letters[7] // returns "h"
           <h2>Arrays</h2>
           <h4>Updating values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d","e","f","g","h"];
-letters[0] = "apples"  // returns "apples"
-letters[1] = "bananas" // returns "bananas"
-letters      // returns ["apples","bananas","c","d","e","f","g","h"]
+            <code class="ruby">
+letters = ["a","b","c","d","e","f","g","h"]
+
+# if we want to change "a" and "b":
+letters[0] = "apples"
+letters[1] = "bananas"
+
+# letters now contains:
+["apples","bananas","c","d","e","f","g","h"]
             </code>
           </pre>
         </section>
@@ -670,10 +693,13 @@ letters      // returns ["apples","bananas","c","d","e","f","g","h"]
           <h2>Arrays</h2>
           <h4>Inserting values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d"];
-letters.push("elephant") // returns "elephant"
-letters // returns ["a","b","c","d","elephant"]
+            <code class="ruby">
+letters = ["a","b","c","d"]
+
+letters.push("elephant")
+
+# letters now contains:
+["a","b","c","d","elephant"]
             </code>
           </pre>
           <p>The <strong>push</strong> method adds an element to the end of an array.</p>
@@ -683,10 +709,13 @@ letters // returns ["a","b","c","d","elephant"]
           <h2>Arrays</h2>
           <h4>Inserting values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d", "elephant"];
-letters.unshift("zebra") // returns "zebra"
-letters // returns ["zebra","a","b","c","d", "elephant"]
+            <code class="ruby">
+letters = ["a","b","c","d", "elephant"]
+
+letters.unshift("zebra")
+
+# letters now contains:
+["zebra","a","b","c","d", "elephant"]
             </code>
           </pre>
           <p>The <strong>unshift</strong> method adds an element to the start of an array.</p>
@@ -697,10 +726,16 @@ letters // returns ["zebra","a","b","c","d", "elephant"]
           <h2>Arrays</h2>
           <h4>Removing values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d"];
-var char = letters.pop() // returns "d"
-letters // returns ["a","b","c"]
+            <code class="ruby">
+letters = ["a","b","c","d"]
+
+char = letters.pop
+
+# letters now contains:
+["a","b","c"]
+
+# and the local variable `char` contains:
+"d"
             </code>
           </pre>
           <p>The <strong>pop</strong> method removes an element from the end of an array.</p>
@@ -711,10 +746,16 @@ letters // returns ["a","b","c"]
           <h2>Arrays</h2>
           <h4>Removing values</h4>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d"];
-var char = letters.shift() // returns "a"
-letters // returns ["b","c", "d"]
+            <code class="ruby">
+letters = ["a","b","c","d"]
+
+char = letters.shift
+
+# letters now contains:
+["b","c","d"]
+
+# and `char` contains:
+"a"
             </code>
           </pre>
           <p>The <strong>shift</strong> method removes an element from the start of an array.</p>
@@ -727,82 +768,71 @@ letters // returns ["b","c", "d"]
 
         <section>
           <h2>Methods</h2>
-          <p>All data types in JavaScript come with some built in behavior called <strong>methods</strong>. We've already seen a few array methods with push, pop, shift and unshift.</p>
+          <p>Everything in Ruby has some built in behavior called <strong>methods</strong>. We've already seen a few array methods with push, pop, shift and unshift.</p>
         </section>
 
         <section>
           <h2>Method syntax</h2>
           <pre>
-            <code class="javascript">
-var letters = ["a","b","c"];
-letters.push("d");
-// --------------------------
-letters // the array that we're calling our method on
-.       // the dot to signify we're about to call a method
-push    // the name of the method
-("d")   // the actual calling of the method with a string argument
+            <code class="ruby">
+letters = ["a","b","c"]
+
+letters.push("d")
+
+# --------------------------
+letters # the array that we're calling our method on
+.       # the dot to signify we're about to call a method
+push    # the name of the method
+("d")   # the actual calling of the method with a string argument
             </code>
           </pre>
           <p>We <strong>call a method</strong> with a dot, followed by the method name, followed by a set of parentheses. Sometimes we put other data inside the parens, known as <strong>arguments</strong>; other times methods don't require arguments.</p>
         </section>
 
         <section>
-          <h2>Properties</h2>
-          <p>Things in JavaScript can also have <strong>properties</strong>. You access and modify properties similarly to methods, except you do not include the parentheses.</p>
-        </section>
-
-        <section>
-          <h2>Properties</h2>
+          <h2>Method syntax</h2>
+          <p>In Ruby, when a method takes no arguments, we can call that method without parentheses.</p>
           <pre>
-            <code class="javascript">
-var fruits = ["apple","banana","carrot"];
-fruits.length // returns 3
-fruits[2].length // returns 6
-fruits.push("d");
-fruits.length // returns 4
+            <code class="ruby">
+letters = ["a","b","c","d"]
+
+letters.pop
             </code>
           </pre>
-          <p><strong>length</strong> is a good example of a <strong>property</strong> on both arrays and strings. Note how properties don't need parentheses after them.</p>
         </section>
 
         <section>
-          <h2>Methods vs Properties</h2>
-          <p>It can be very confusing to know whether something is a <strong>method</strong> or an <strong>property</strong> when you start out with JavaScript. It's something you'll get used to.</p>
-          <p>Remember you always have the Web to look things up!</p>
+          <h2>Hashes</h2>
+          <p><strong>Hashes</strong> in Ruby are similar to arrays in that they contain a collection of values.</p>
+          <p>However, unlike arrays which are <strong>ordered by index</strong>, the values in hashes are stored in <strong>keys</strong> that you name yourself.</p>
         </section>
 
         <section>
-          <h2>Objects</h2>
-          <p><strong>Objects</strong> in JavaScript are similar to arrays in that they contain a collection of values.</p>
-          <p>However, unlike arrays which are <strong>ordered by index</strong>, the values in objects are stored in <strong>keys</strong> that you name yourself.</p>
-        </section>
-
-        <section>
-          <h2>Objects</h2>
-          <p>In our metaphor we give each bucket a name. This is the <strong>key</strong>. The item inside the bucket is its <strong>value</strong>. So, a JavaScript object is a collection of <strong>key value pairs</strong>.</p>
+          <h2>Hashes</h2>
+          <p>In our metaphor we give each bucket a name. This is the <strong>key</strong>. The item inside the bucket is its <strong>value</strong>. So, a Ruby hash is a collection of <strong>key value pairs</strong>.</p>
           <img src="img/object-buckets.jpg">
           <aside class="notes">If this collection of buckets was an object, what do you think it would represent?</aside>
         </section>
 
         <section>
-          <h2>Objects</h2>
-          <p>Let's <strong>instantiate</strong> an object in JavaScript:</p>
+          <h2>Hashes</h2>
+          <p>Let's <strong>instantiate</strong> a hash in Ruby:</p>
           <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, sex: "male"};
+            <code class="ruby">
+person = {name: "Sam", age: 28, sex: "male"}
             </code>
           </pre>
-          <p>This <strong>object</strong> contains three <strong>key value pairs</strong> and the object is stored in the variable `person`.</p>
-          <aside class="notes">What data type are the values in this object?</aside>
+          <p>This <strong>hash</strong> contains three <strong>key value pairs</strong> and the object is stored in the local variable `person`.</p>
+          <aside class="notes">What data type are the values in this hash?</aside>
         </section>
 
-                <section>
-          <h2>Objects</h2>
+        <section>
+          <h2>Hashes</h2>
           <h4>Accessing values</h4>
           <pre>
-            <code class="javascript">
-var person = {name: "Sam", age: 28, sex: "male"};
-person.name      // returns "Sam"
+            <code class="ruby">
+person = {name: "Sam", age: 28, sex: "male"}
+
 letters["name"]  // returns "Sam"
             </code>
           </pre>
