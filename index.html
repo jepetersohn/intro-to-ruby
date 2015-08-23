@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Ruby for Beginners</title>
+
+    <meta name="description" content="Dev Bootcamp Evening Workshop Series: Ruby for Beginners">
+    <meta name="author" content="Sam Blackman">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/blood.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style>
+      strong  { font-weight: normal; color: orange; font-variant: normal; }
+      .breakout { color: orange; }
+      .reveal a:not(.image) { color: orange; }
+      .reveal pre {box-shadow:none; margin-bottom: 0;}
+      .reveal code { border: 4px solid white; }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+<div class="reveal">
+
+      <div class="slides">
+        <section>
+          <h1>Ruby for Beginners</h1>
+          <h3>Building a Web Server</h3>
+          <p>
+            <small>Brought to you by <a href="http://devbootcamp.com">Dev Bootcamp</a></small>
+          </p>
+        </section>
+
+        <!-- Intro / Outline -->
+        <section>
+          <h2>Hi everyone!</h2>
+          <p>Some "rules" for today:</p>
+          <ul>
+            <li>We are here to support your learning!</li>
+            <li>Ask <strong>every single question</strong> you have.</li>
+            <li>Take advantage of the amazing person next to you!</li>
+            <li>If you want to do it, <strong>do it</strong>. Have fun with this.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Welcome!</h2>
+          <p>Let's get to know each other!</p>
+          <ul>
+            <li>What's your name, and who are you?</li>
+            <li>What do you want to get out of this session?</li>
+            <li>What's <strong>something quirky</strong> about you?</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Outline</h2>
+          <ul>
+            <li class="fragment">Tools for learning and writing Ruby</li>
+            <li class="fragment">The role Ruby plays in the World Wide Web</li>
+            <li class="fragment">The simplest of servers with Sinatra</li>
+            <li class="fragment breakout">Breakout - build a simple server!</li>
+            <li class="fragment">Different ways to represent data in Ruby</li>
+            <li class="fragment">Loops, conditionals and methods</li>
+            <li class="fragment">Common Ruby core library methods</li>
+            <li class="fragment breakout">Breakout - write an algorithm!</li>
+            <li class="fragment">Interacting with Twitter using Ruby</li>
+            <li class="fragment">Serving tweets to your website</li>
+            <li class="fragment">Posting tweets from your website</li>
+            <li class="fragment breakout">Breakout - implement your algorithm!</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Ruby tools</h2>
+          <ul>
+            <li>A command line interface (Terminal / Shell)</li>
+            <li>The Ruby interpreter</li>
+            <li>A text editor (Sublime Text)</li>
+            <li>A web browser (Chrome)</li>
+            <li>Ruby gems</li>
+            <li>Research techniques</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p>Google search and autocomplete will quickly become your best friend</p>
+          <img src="img/ruby-google-autocomplete.jpg">
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p>Your ultimate goal is a super fast <strong>feedback loop</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p>Scan through the Google search results and work out which look most relevant to your issue.</p>
+          <img src="img/ruby-google-search-results.jpg">
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p><span class="breakout">Cmd+Click</span> (Mac) or <span class="breakout">Ctrl+Click</span> a link to open it in a new tab. Open what you think are the three most promising results.</p>
+          <img src="img/ruby-google-search-results-tabs.jpg">
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p>In my experience, I've found the following resources to be particularly helpful:</p>
+          <ul>
+            <li>Stack Overflow</li>
+            <li>ruby-doc.org ("The Ruby Docs")</li>
+            <li>Guides and blog posts</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Research techniques</h2>
+          <p>A quick note on Stack Overflow...</p>
+          <p>Always remember that the section right at the top of the page is the question, not the answer!</p>
+        </section>
+
+        <section>
+          <img src="img/stackoverflow.jpg">
+        </section>
+
+        <section>
+          <h2>Our goal</h2>
+          <p>Our goal today is to build a <strong>web server</strong> that interacts with the <strong>Twitter API</strong> and sends HTML pages back to the browser.</p>
+          <aside class="notes">Show the functionality of the running site.</aside>
+        </section>
+
+        <section>
+          <h2>Ruby's role</h2>
+          <p>To understand Ruby's role on the Web, we need to understand the Web.</p>
+        </section>
+
+        <section>
+          <h2>Request / Response</h2>
+          <img src="img/request-response.jpg">
+        </section>
+
+        <section>
+          <h2>Specifically today</h2>
+          <img src="img/request-twitter-response.jpg">
+        </section>
+
+        <section>
+          <h2>Ruby's role</h2>
+          <img src="img/request-response-ruby.jpg">
+        </section>
+
+        <section>
+          <h2>Sinatra</h2>
+          <p><strong>Sinatra</strong> is a framework written in Ruby that allows us to build a server that, upon receiving a request from a browser, will respond with a page of HTML.</p>
+        </section>
+
+        <section>
+          <h2>Routes</h2>
+          <p>When your server <strong>receives a request</strong> from a browser, it needs to know what action to perform based on that request. This is called <strong>routing</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Routes</h2>
+          <p>The text and slashes after the domain name in a URL is known as the <strong>path</strong>. Your server looks at the path to determine where to <strong>route a request</strong>.</p>
+          <pre>
+            <code class="http">
+http://www.mycoolsite.com/this/bit/is/the/path
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Routes</h2>
+          <p>If your Sinatra server received a request like this:</p>
+          <pre>
+            <code class="http">
+http://localhost:9393/hello
+            </code>
+          </pre>
+          <p>...it would look for a route like this:</p>
+          <pre>
+            <code class="ruby">
+get '/hello' do
+
+end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Routes</h2>
+          <p>Likewise, if your Sinatra server received a request like this:</p>
+          <pre>
+            <code class="http">
+http://localhost:9393/this/is/a/really/long/path
+            </code>
+          </pre>
+          <p>...it would look for a route like this:</p>
+          <pre>
+            <code class="ruby">
+get '/this/is/a/really/long/path' do
+
+end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Response</h2>
+          <p>Once your server has <strong>matched a path</strong>, it runs whatever Ruby code is between the `do` and the `end`. It will <strong>respond to the browser</strong> with the last line in the route.</p>
+        </section>
+
+        <section>
+          <h2>Response</h2>
+          <p>You can respond with a simple string:</p>
+          <pre>
+            <code class="ruby">
+get '/hello' do
+  "Why hello there, friendly Web traveler!"
+end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Response</h2>
+          <p>...or with an HTML file:</p>
+          <pre>
+            <code class="ruby">
+get '/hello' do
+  erb :hello
+end
+            </code>
+          </pre>
+          <p>Sinatra will look in your "views" folder for an HTML file called "hello.erb" and send it back to the browser to display.</p>
+        </section>
+
+        <section>
+          <h2>Running your server</h2>
+          <p>Once you have a route or two set up, you need to run your server so it <strong>listens for requests</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Running your server</h2>
+          <p>In your terminal, navigate to your server file's location and type "ruby" followed by the filename, eg:</p>
+          <pre>
+            <code class="bash">
+ruby server.rb
+            </code>
+          </pre>
+          <p>Your server will now be waiting for requests.</p>
+        </section>
+
+        <section>
+          <h2>Make a request</h2>
+          <p>Head to your browser and type the address you saw in your terminal, plus one of your routes, for example:</p>
+          <pre>
+            <code class="http">
+http://localhost:4567/hello
+            </code>
+          </pre>
+          <p>Your server will respond to your request!</p>
+        </section>
+
+        <section>
+          <h1>omg let's build</h1>
+          <a href="">bit.ly</a>
+          <aside class="notes"></aside>
+        </section>
+
+        <section>
+          <h2>Challenge</h2>
+          <ul>
+            <li>Create three GET routes in the server.rb file</li>
+            <li>In one of the routes, respond with a simple string</li>
+            <li>In another route, respond with hello.erb (already there)</li>
+            <li>In the final route, respond with your own HTML file</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Coding Basics</h2>
+          <h4>(through a Ruby lens)</h4>
+          <p>A bunch of jargon:</p>
+          <ul>
+            <li class="fragment">"variable"</li>
+            <li class="fragment">"string"</li>
+            <li class="fragment">"integer"</li>
+            <li class="fragment">"boolean"</li>
+            <li class="fragment">"return-value"</li>
+            <li class="fragment">"array"</li>
+            <li class="fragment">"hash"</li>
+          </ul>
+          <p class="fragment">What does it all mean!?</p>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>A variable is a way of <strong>naming things</strong> so we have a reference to them later.</p>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>Think of variables as a <strong>label</strong> we can write on and apply to different things.</p>
+          <img src="img/post-it.png" width="50%"/>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>Let's come back to variables once we learn about a few different <strong>data types</strong> we can label.</p>
+        </section>
+
+        <section>
+          <h2>Strings</h2>
+          <p>A string is simply a <strong>sequence of characters</strong>. Here are some examples of strings in Ruby:</p>
+          <pre>
+            <code class="ruby">
+"This is a string."
+
+"123456789abcde"
+
+"!@#$%^&*()"
+
+""
+
+'A string can also be in single quotes'
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Strings</h2>
+          <p>Strings are one of the most common <strong>data types</strong> in every programming language. Get used to seeing, using and manipulating strings!
+          </p>
+        </section>
+
+        <section>
+          <h2>Integers</h2>
+          <p>Integers are another very common data type that you will see in every language. This is what they look like in Ruby:</p>
+            <pre>
+              <code class="ruby">
+42
+100
+10000
+-256
+              </code>
+            </pre>
+            <p>Integers are numbers without fractional components.</p>
+        </section>
+
+        <section>
+          <h2>Floats</h2>
+          <p>A float, or "floating point", is how computers represent numbers with fractional components. In Ruby, floats look like this:</p>
+          <pre>
+              <code class="ruby">
+0.1
+3.141592653589793
+5.5
+99.999
+−128.6
+              </code>
+            </pre>
+        </section>
+
+        <section>
+          <h2>Numeric methods</h2>
+          <p>You can perform simple arithmetic on integers and floats using:</p>
+            <table>
+              <tr>
+                <td>Addition</td>
+                <td>+</td>
+              </tr>
+              <tr>
+                <td>Subtraction</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Multiplication</td>
+                <td>*</td>
+              </tr>
+              <tr>
+                <td>Division</td>
+                <td>/</td>
+              </tr>
+              <tr>
+                <td>Modulus</td>
+                <td>%</td>
+              </tr>
+            </table>
+        </section>
+
+        <section>
+          <h2>Numeric methods</h2>
+          <p>You can also perform simple comparison operations on numbers using:</p>
+            <table>
+              <tr>
+                <td>Equality</td>
+                <td>==</td>
+              </tr>
+              <tr>
+                <td>Inequality</td>
+                <td>!=</td>
+              </tr>
+              <tr>
+                <td>Greater than</td>
+                <td>></td>
+              </tr>
+              <tr>
+                <td>Greater than or equal to</td>
+                <td>>=</td>
+              </tr>
+              <tr>
+                <td>Less than</td>
+                <td><</td>
+              </tr>
+              <tr>
+                <td>Less than or equal to</td>
+                <td><=</td>
+              </tr>
+            </table>
+        </section>
+
+        <section>
+          <h2>Try it yourself!</h2>
+          <p>Open up <strong>IRB</strong> by typing `irb` in your terminal.</p>
+          <img src="img/javascript-console.jpg">
+          <aside class="notes">
+            What does the modulus operator do?
+            What happens if you multiply a string by a number?
+            What happens if you multiply a number by a string?
+            Can you add a number to a string in Ruby?
+          </aside>
+        </section>
+
+        <section>
+          <h2>Pop quiz!</h2>
+          <ul>
+            <li>What does the modulus operator do?</li>
+            <li>What happens if you multiply a string by a number?</li>
+            <li>What happens if you multiply a number by a string?</li>
+            <li>Can you add a number to a string?</li>
+            <li>Do comparison operators work with strings?</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Return values</h2>
+          <p>Every time you press enter in IRB, you see the <strong>return value</strong> of expression you evaluated.</p>
+        </section>
+
+        <section>
+          <h2>Return values</h2>
+          <p>What <strong>data type</strong> did Ruby return when you used a <strong>comparison operator</strong>?</p>
+          <div class="fragment">
+            <p>Comparison operators will always return a</p>
+            <p><strong>Boolean</strong></p>
+            <p>true or false</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Booleans</h2>
+          <p>Note that in Ruby:</p>
+          <ul>
+            <li>the value `nil` counts as false</li>
+            <li>everything else counts as true</li>
+          </ul>
+          <p>This can be useful when we look at <strong>conditionals</strong> later.</p>
+        </section>
+
+        <section>
+          <h2>Back to variables</h2>
+          <p>Now we know how to create a few data types, let's save them for later in some <strong>variables</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>There are different types of variables in Ruby:</p>
+          <ul>
+            <li><span class="breakout">local</span> variables</li>
+            <li><span class="breakout">instance</span> variables</li>
+            <li><span class="breakout">class</span> variables</li>
+            <li><span class="breakout">global</span> variables</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>The difference between variable types relates to which parts of your code can access those variables. This is known as <strong>scope</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Variables</h2>
+          <p>Today we'll use <strong>local variables</strong> and <strong>instance variables</strong>. Let's look at how to declare these variables in Ruby.</p>
+        </section>
+
+        <section>
+          <h2>Variable syntax</h2>
+          <p>
+            The syntax for <strong>declaring variables</strong> in Ruby is like this:
+          </p>
+          <pre>
+            <code class="ruby">
+# this is a local variable
+magic_number = 42
+
+# this is an instance variable
+@instance_variable = "My first instance variable!"
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>A note on naming</h2>
+          <p>Naming variables in <strong>snake_case</strong> is a Ruby convention.</p>
+        </section>
+
+        <section>
+          <h2>Storing things</h2>
+          <p>You can directly assign values to <strong>variables</strong>...</p>
+          <pre>
+            <code class="ruby">
+seen_it = "...like we've already seen"
+            </code>
+          </pre>
+          <p>...or store <strong>return values</strong> of expressions in <strong>variables</strong></p>
+          <pre>
+            <code class="ruby">
+num = 3
+other_num = 4
+multiplier = 6
+answer_to_the_ultimate_question = (num + other_num) * multiplier
+            </code>
+          </pre>
+          <aside class="notes">
+            What value is stored in answerToTheUltimateQuestion?
+          </aside>
+        </section>
+
+        <section>
+          <h2>Data structures</h2>
+          <p>Let's look at two more <strong>data structures</strong>:</p>
+          <ul>
+            <li>Arrays</li>
+            <li>Hashes</li>
+          </ul>
+          <aside class="notes">Note, I said data structures, not data types. There is a subtle difference.</aside>
+        </section>
+
+        <section>
+          <h2>Data structures</h2>
+          <p>For the following data structures, we are going to learn how to create, or <strong>instantiate</strong>, them and then learn the following operations:</p>
+          <ul>
+            <li>Accessing values</li>
+            <li>Updating values</li>
+            <li>Inserting values</li>
+            <li>Removing values</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <p>Just like a <strong>variable</strong> holds a single value, an <strong>array</strong> holds a collection of values.</p>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <p>Think of an array as a bunch of buckets, each of which stores a value.</p>
+          <img src="img/original-buckets.jpg">
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <p>If we were to put the first eight characters of the alphabet into these buckets, it would look like this in JavaScript:</p>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d","e","f","g","h"];
+            </code>
+          </pre>
+          <p>An <strong>array</strong> of the characters "a" through "h" is now stored in the variable `letters`. This is an array of <strong>strings</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Accessing values</h4>
+          <p>Every element in an array is stored in a specific position known as an <strong>index</strong>. Arrays are indexed starting at 0 and incrementing by 1 for each position.</p>
+          <table>
+            <tr>
+              <td>&nbsp;0</td>
+              <td>&nbsp;1</td>
+              <td>&nbsp;2</td>
+              <td>&nbsp;3</td>
+              <td>&nbsp;4</td>
+              <td>&nbsp;5</td>
+              <td>&nbsp;6</td>
+              <td>&nbsp;7</td>
+            </tr>
+            <tr>
+              <td>"a"</td>
+              <td>"b"</td>
+              <td>"c"</td>
+              <td>"d"</td>
+              <td>"e"</td>
+              <td>"f"</td>
+              <td>"g"</td>
+              <td>"h"<br></td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <p>You refer to each <strong>element</strong> by its <strong>index</strong>.</p>
+          <img src="img/array-buckets.jpg">
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Accessing values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d","e","f","g","h"];
+letters[0] // returns "a"
+letters[7] // returns "h"
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Updating values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d","e","f","g","h"];
+letters[0] = "apples"  // returns "apples"
+letters[1] = "bananas" // returns "bananas"
+letters      // returns ["apples","bananas","c","d","e","f","g","h"]
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Inserting values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d"];
+letters.push("elephant") // returns "elephant"
+letters // returns ["a","b","c","d","elephant"]
+            </code>
+          </pre>
+          <p>The <strong>push</strong> method adds an element to the end of an array.</p>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Inserting values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d", "elephant"];
+letters.unshift("zebra") // returns "zebra"
+letters // returns ["zebra","a","b","c","d", "elephant"]
+            </code>
+          </pre>
+          <p>The <strong>unshift</strong> method adds an element to the start of an array.</p>
+          <aside class="notes">What element is in index zero of the array now?</aside>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Removing values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d"];
+var char = letters.pop() // returns "d"
+letters // returns ["a","b","c"]
+            </code>
+          </pre>
+          <p>The <strong>pop</strong> method removes an element from the end of an array.</p>
+          <aside class="notes">What element is in index zero of the array now?</aside>
+        </section>
+
+        <section>
+          <h2>Arrays</h2>
+          <h4>Removing values</h4>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d"];
+var char = letters.shift() // returns "a"
+letters // returns ["b","c", "d"]
+            </code>
+          </pre>
+          <p>The <strong>shift</strong> method removes an element from the start of an array.</p>
+          <aside class="notes">What element is in index zero of the array now?</aside>
+        </section>
+
+        <section>
+          <h3>A quick note on Methods</h3>
+        </section>
+
+        <section>
+          <h2>Methods</h2>
+          <p>All data types in JavaScript come with some built in behavior called <strong>methods</strong>. We've already seen a few array methods with push, pop, shift and unshift.</p>
+        </section>
+
+        <section>
+          <h2>Method syntax</h2>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c"];
+letters.push("d");
+// --------------------------
+letters // the array that we're calling our method on
+.       // the dot to signify we're about to call a method
+push    // the name of the method
+("d")   // the actual calling of the method with a string argument
+            </code>
+          </pre>
+          <p>We <strong>call a method</strong> with a dot, followed by the method name, followed by a set of parentheses. Sometimes we put other data inside the parens, known as <strong>arguments</strong>; other times methods don't require arguments.</p>
+        </section>
+
+        <section>
+          <h2>Properties</h2>
+          <p>Things in JavaScript can also have <strong>properties</strong>. You access and modify properties similarly to methods, except you do not include the parentheses.</p>
+        </section>
+
+        <section>
+          <h2>Properties</h2>
+          <pre>
+            <code class="javascript">
+var fruits = ["apple","banana","carrot"];
+fruits.length // returns 3
+fruits[2].length // returns 6
+fruits.push("d");
+fruits.length // returns 4
+            </code>
+          </pre>
+          <p><strong>length</strong> is a good example of a <strong>property</strong> on both arrays and strings. Note how properties don't need parentheses after them.</p>
+        </section>
+
+        <section>
+          <h2>Methods vs Properties</h2>
+          <p>It can be very confusing to know whether something is a <strong>method</strong> or an <strong>property</strong> when you start out with JavaScript. It's something you'll get used to.</p>
+          <p>Remember you always have the Web to look things up!</p>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <p><strong>Objects</strong> in JavaScript are similar to arrays in that they contain a collection of values.</p>
+          <p>However, unlike arrays which are <strong>ordered by index</strong>, the values in objects are stored in <strong>keys</strong> that you name yourself.</p>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <p>In our metaphor we give each bucket a name. This is the <strong>key</strong>. The item inside the bucket is its <strong>value</strong>. So, a JavaScript object is a collection of <strong>key value pairs</strong>.</p>
+          <img src="img/object-buckets.jpg">
+          <aside class="notes">If this collection of buckets was an object, what do you think it would represent?</aside>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <p>Let's <strong>instantiate</strong> an object in JavaScript:</p>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, sex: "male"};
+            </code>
+          </pre>
+          <p>This <strong>object</strong> contains three <strong>key value pairs</strong> and the object is stored in the variable `person`.</p>
+          <aside class="notes">What data type are the values in this object?</aside>
+        </section>
+
+                <section>
+          <h2>Objects</h2>
+          <h4>Accessing values</h4>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, sex: "male"};
+person.name      // returns "Sam"
+letters["name"]  // returns "Sam"
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <h4>Updating values</h4>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, sex: "male"};
+person.age = 29      // returns 29
+
+person
+// now contains
+{name: "Sam", age: 29, sex: "male"}
+
+person.age           // returns 29
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <h4>Inserting values</h4>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, sex: "male"};
+person.gender = "cis male"  // returns "cis male"
+
+person
+// now contains
+{name: "Sam", age: 28, sex: "male", gender: "cis male"}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Objects</h2>
+          <h4>Removing values</h4>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, sex: "male", gender: "cis male"}
+delete person.sex // returns true
+
+person
+// now contains
+{name: "Sam", age: 28, gender: "cis male"}
+
+person.sex        // returns undefined
+            </code>
+          </pre>
+          <p>The <strong>delete</strong> operator removes a <strong>key value pair</strong> from an object.</p>
+          <aside class="notes">
+            Why did I not call `delete` a method?
+            It's relatively rare to use `delete`. Most often you are reading or accessing data. Second most, adding or inserting data. Third most, updating data. Rarely, deleting or removing data.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Taxonomy</h2>
+          <p>We've been using <strong>dot notation</strong> when working with objects.</p>
+          <pre>
+            <code class="javascript">
+var person = {name: "Sam", age: 28, gender: "cis male"}
+
+person.name
+person.age
+person.gender
+            </code>
+          </pre>
+          <p>What type of thing does that suggest `name`, `age`, and `gender` are?</p>
+          <p class="fragment"><strong>properties</strong></p>
+        </section>
+
+        <section>
+          <h2>Taxonomy</h2>
+          <p>So what we generically call <strong>keys</strong> are specifically called <strong>properties</strong> in JavaScript objects.</p>
+          <p class="fragment">Also, these things we call <strong>objects</strong> in JavaScript can be called dictionaries, hashes, hash tables, or maps in other languages.</p>
+        </section>
+
+        <section>
+          <h1>omg let's build.</h1>
+          <p><a href="http://bit.ly/dbc-js-intro">bit.ly/dbc-js-intro</a></p>
+          <aside class="notes">
+            With your neighbor, model the following using the data types and structures you just learnt about:
+            <ul>
+              <li>A list of three different people</li>
+              <li>The people should have names, ages and a list of their favorite foods</li>
+            </ul>
+            If you want, you can use multiple variables to set everything up, but ultimately I want you to store all of this information inside a single variable. You should be able to enter your data structure into the console and not get any errors.s
+          </aside>
+        </section>
+
+        <section>
+          <h2>Up next</h2>
+          <ul>
+            <li>Loops</li>
+            <li>Conditionals</li>
+            <li>Functions</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>Doing certain things over and over and over and over is a <a target="_blank" href="https://youtu.be/gs9NgGZkErU?t=54s">very common thing when coding</a></p>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>We will look at the syntax for two JavaScript <strong>loops</strong>:</p>
+          <ul>
+            <li>for</li>
+            <li>while</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>This is the syntax for a <strong>while loop</strong>.</p>
+          <pre>
+            <code class="javascript">
+var counter = 1;
+while (counter <= 10) {
+  console.log("I'm counting in multiples of five!");
+  console.log("Here's what's next: " + counter * 5)
+  counter++
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>Here's the same operation using a <strong>for loop</strong>.</p>
+          <pre>
+            <code class="javascript">
+for (var counter = 1; counter <= 10; counter++) {
+  console.log("I'm counting in multiples of five!");
+  console.log("Here's what's next: " + counter * 5)
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>Compare the two:</p>
+          <pre>
+            <code class="javascript">
+var counter = 1;
+while (counter <= 10) {
+  console.log("I'm counting in multiples of five!");
+  console.log("Here's what's next: " + counter * 5)
+  counter++
+}
+// -------------------------------------------------
+
+for (var counter = 1; counter <= 10; counter++) {
+  console.log("I'm counting in multiples of five!");
+  console.log("Here's what's next: " + counter * 5)
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Warning!</h2>
+          <p>Be careful not to code a loop that will never end. It will cause your browser to freeze and crash!</p>
+          <pre>
+            <code class="javascript">
+// Don't run the following code!
+var counter = 1;
+while (counter <= 10) {
+  console.log("I'm counting in multiples of five!");
+  console.log("Here's what's next: " + counter * 5)
+}
+            </code>
+          </pre>
+          <p>This is called an <strong>infinite loop</strong>. Can you see why it never ends?</p>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>Here's a fun game with a <strong>while loop</strong>.</p>
+          <pre>
+            <code class="javascript">
+var secretPhrase = "bananas"
+var userInput
+while (userInput !== secretPhrase) {
+  userInput = prompt("Haha! You will continue to get this annoying\
+  pop up until you guess the secret phrase!")
+}
+alert("Drat! You guessed it!")
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>The most common use of loops is to <strong>loop over collections</strong>. We loop over collections when we want to do something with every element in a collection.</p>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>Here's a <strong>for loop</strong> looping over and printing out every element in our letters array:</p>
+          <pre>
+            <code class="javascript">
+var letters = ["a","b","c","d","e","f","g","h"];
+for (var i = 0; i < letters.length; i++) {
+  console.log(letters[i]);
+}
+            </code>
+          </pre>
+          <p>There's a lot going on here. So let's talk through it.</p>
+        </section>
+
+        <section>
+          <h2>Try it yourself!</h2>
+          <p>Open up your handy dandy <strong>JavaScript console</strong> by pressing <span class="breakout">Cmd+Opt+J</span> on Mac or <span class="breakout">Ctrl+Shift+J</span> on other systems.</p>
+          <img src="img/javascript-console.jpg">
+          <aside class="notes">
+            Try looping over the list of people you made in our last breakout sesssion and printing out everyone's name AND their age...
+            You can paste your data structure into the console, or you can write your loop in the file on your desktop.
+          </aside>
+        </section>
+
+        <section>
+          <h2>Conditionals</h2>
+          <p>Sometimes you want your code to do different things depending on different inputs. This is called <strong>control flow</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Conditionals</h2>
+          <p>Maybe you need to check someone's age before you let them use your program:</p>
+          <pre>
+            <code class="javascript">
+var age = prompt("How old are you?");
+if (age >= 18) {
+  alert("Welcome to this program!")
+} else {
+  alert("Sorry, you must be 18 or over to use this program.")
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Breaking it down</h2>
+          <p></p>
+          <pre>
+            <code class="javascript">
+if           // reserved word to start a condtional
+(age >= 18)  // the "condition"
+{}           // the "code block" to run if the condition is true
+else         // reserved word at the end of a conditional
+{}           // the code block to run if all conditions are false
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Functions</h2>
+        </section>
+
+        <section>
+          <h2>What is a function?</h2>
+          <p>A <strong>function</strong> is a selection of code that you can save and run later, potentially multiple times.</p>
+        </section>
+
+        <section>
+          <h2>Function syntax</h2>
+          <p>We <strong>define a function</strong> like this:</p>
+          <pre>
+            <code class="javascript">
+var createGreeting = function(name) {
+  return "Welcome to my website, " + name;
+}
+            </code>
+          </pre>
+          <p>The code is now stored in the variable `createGreeting`. Now we can call this the <strong>createGreeting function</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Calling a function</h2>
+          <p>We <strong>call a function</strong> by typing its name, followed by parentheses.</p>
+          <pre>
+            <code class="javascript">
+var createGreeting = function(name) {
+  return "Welcome to my website, " + name;
+}
+
+createGreeting("Sam")     // returns "Welcome to my website, Sam"
+
+createGreeting("Debbie")  // returns "Welcome to my website, Debbie"
+
+createGreeting("Britney") // returns "Welcome to my website, Britney"
+
+alert(createGreeting("Stranger"))
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Input and Output</h2>
+          <p>Functions allow us to <strong>input</strong> some data and <strong>output</strong> other data.</p>
+        </section>
+
+        <section>
+          <h2>Arguments</h2>
+          <p>The input that we give to functions are called <strong>arguments</strong>.</p>
+          <pre>
+            <code class="javascript">
+var sum = function(num1, num2) {}
+            </code>
+          </pre>
+          <p>`num1` and `num2` are the <strong>parameters</strong> in this function that show us that we can pass it two arguments.</p>
+        </section>
+
+        <section>
+          <h2>Return values</h2>
+          <p>The output from a function is its <strong>return value</strong>.</p>
+          <pre>
+            <code class="javascript">
+var sum = function(num1, num2) {
+  var result = num1 + num2;
+  return result;
+}
+            </code>
+          </pre>
+          <p>Usually we manipulate our input in some useful way and then <strong>return</strong> that data.</p>
+          <aside class="notes">Note as in this example, a function can have multiple parameters. These parameters act as variables within the function and any arguments you pass to this function when you call it will be accessible inside those variables/parameters.</aside>
+        </section>
+
+        <section>
+          <h2>Functions</h2>
+          <p>Functions don't actually need parameters or a return statement. Here's an example:</p>
+          <pre>
+            <code class="javascript">
+var woohoo = function() {
+  alert("WOOHOO!");
+}
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Try it yourself!</h2>
+          <p>Open up your handy dandy <strong>JavaScript console</strong> by pressing <span class="breakout">Cmd+Opt+J</span> on Mac or <span class="breakout">Ctrl+Shift+J</span> on other systems.</p>
+          <img src="img/javascript-console.jpg">
+          <aside class="notes">
+            Build a "triangle checker" function in your console.
+            <ul>
+              <li>It should take three arguments</li>
+              <li>Each of those arguments represents an angle</li>
+              <li>If those three numbers add up to 180, then return true</li>
+              <li>If those three numbers don't add up to 180, then return false</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h2>jQuery</h2>
+          <img src="img/jquery-modern-logo.jpg">
+          <p>A JavaScript library that makes it easier for us to interact with webpages.</p>
+        </section>
+
+        <section>
+          <h2>Some new files!</h2>
+          <a href="http://bit.ly/dbc-jquery-intro">bit.ly/dbc-jquery-intro</a>
+        </section>
+
+        <section>
+          <h2>Loading jQuery</h2>
+          <p>In the index.html file, you'll see a <strong>&lt;script&gt; element</strong> linking to a copy of the jQuery in the same folder. This is one way to include jQuery on your page.</p>
+          <p class="fragment">You'll also see a &lt;script&gt; element that is commented out. This is another way of including jQuery: by linking to an external source.</p>
+        </section>
+
+        <section>
+          <h2>Selecting elements</h2>
+          <p>We are going to be playing with the <strong>HTML elements</strong> on our page. To do that, we first need to <strong>select</strong> those elements using jQuery.</p>
+        </section>
+
+        <section>
+          <h2>Selecting elements</h2>
+          <p>The syntax for <strong>selecting elements</strong> with jQuery is:</p>
+          <pre>
+            <code class="javascript">
+$("div")
+            </code>
+          </pre>
+          <p>This will select all of the div elements on the page.</p>
+        </section>
+
+        <section>
+          <h2>Selecting elements</h2>
+          <p>You can use any <strong>CSS selection</strong> syntax with jQuery:</p>
+          <pre>
+            <code class="javascript">
+// to select all paragraph elements:
+$("p")
+
+// to select all elements with the class 'shadow':
+$(".shadow")
+
+// to select the element with the id 'main-container':
+$("#main-container")
+            </code>
+          </pre>
+          <p>Just remember to wrap your <strong>selector</strong> in quote marks to make it a <strong>string</strong>.</p>
+        </section>
+
+        <section>
+          <h2>jQuery methods</h2>
+          <p>Once we have selected elements, we can <strong>call jQuery methods</strong> on those elements:</p>
+          <pre>
+            <code class="javascript">
+$("p").css("background-color", "aqua");
+            </code>
+          </pre>
+          <p>This selects all paragraphs and then turns their background colors <span style="color: aqua; font-weight: 600;">aqua!</span></p>
+        </section>
+
+        <section>
+          <h2>Try it yourself!</h2>
+          <p>Open up your handy dandy <strong>JavaScript console</strong> by pressing <span class="breakout">Cmd+Opt+J</span> on Mac or <span class="breakout">Ctrl+Shift+J</span> on other systems.</p>
+          <p>Make sure you open it up on the  <strong>index.html</strong> page that has jQuery loaded!</p>
+          <img src="img/javascript-console.jpg">
+          <aside class="notes">
+            <ul>
+              <li>Try changing the styling of different elements using jQuery.</li>
+              <li>Replace the text in the paragraph using the "text" jQuery method.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Listening for events</h2>
+          <p>Interacting with a website through <strong>clicks</strong> and <strong>keystrokes</strong> really brings JavaScript (and websites) to life!</p>
+        </section>
+
+        <section>
+          <h2>Listening for events</h2>
+          <p>Let's learn how to tell certain elements on our page to <strong>listen for a click event</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Listening for events</h2>
+          <p>First we need to <strong>select an element</strong>. Let's select our button:</p>
+          <pre>
+            <code class="javascript">
+$("#load-tweets-button")
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Listening for events</h2>
+          <p>Now we need to <strong>bind a click event</strong> to our button:</p>
+          <pre>
+            <code class="javascript">
+$("#load-tweets-button").click(function() {
+  alert("Button clicked!");
+})
+            </code>
+          </pre>
+          <p>What this says is: 'whenever this thing I have selected is clicked, run the code in this function'.</p>
+        </section>
+
+        <section>
+          <h2>Listening for events</h2>
+          <p>One very common thing to do when a button is clicked is to <strong>update something else on the page</strong>.</p>
+          <pre>
+            <code class="javascript">
+$("#load-tweets-button").click(function() {
+  // your code here that updates something else on the page, maybe:
+  $("p").css("background-color", "aqua");
+})
+            </code>
+          </pre>
+          <p>Now whenever you click the button, all the paragraphs will turn <span style="color: aqua; font-weight: 600;">aqua!</span></p>
+        </section>
+
+        <section>
+          <h2>Updating the page</h2>
+        </section>
+
+        <section>
+          <h2>Updating the page</h2>
+          <p>Here's one more super helpful <strong>jQuery method</strong> called `append`:</p>
+          <pre>
+            <code class="javascript">
+$("#main-container").append("<p>A friendly paragraph!</p>")
+            </code>
+          </pre>
+          <p>The append method will append whatever <strong>HTML string</strong> you pass it as an argument to the element(s) you originally <strong>selected</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Updating the page</h2>
+          <p>Remember, you can add things to strings like this: </p>
+          <pre>
+            <code class="javascript">
+var dataFromSomewhere = "A friendly paragraph!"
+$("#main-container").append("<p>" + dataFromSomewhere + "</p>")
+            </code>
+          </pre>
+          <p>This is called <strong>string concatenation</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Putting it all together</h2>
+          <p>You now have all the tools to dynamically create a webpage! It might strain your brain, but it's time to put <strong>everything we learnt into practice</strong>.</p>
+        </section>
+
+        <section>
+          <h1>omg let's build.</h1>
+          <a href="http://bit.ly/dbc-jquery-intro">bit.ly/dbc-jquery-intro</a>
+          <aside class="notes">
+            <p>Task: when you click the button all of the tweet text from inside the tweets array will appear in new paragraphs on the page.</p>
+            You will need to use:
+            <ul>
+              <li>Loops</li>
+              <li>Array methods</li>
+              <li>Object methods</li>
+              <li>jQuery selectors</li>
+              <li>jQuery event listeners</li>
+              <li>the jQuery append method</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h2>Resources to learn more</h2>
+          <ul>
+            <li>Codecademy</li>
+            <li>Code School</li>
+            <li>Treehouse</li>
+            <li>Stack Overflow</li>
+            <li>jQuery Documentation</li>
+            <li>MDN (Mozilla Developer Network)</li>
+            <li>W3 Schools</li>
+            <li>Guides and blog posts</li>
+            <li>Google</li>
+            <li>Playing around!</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Thanks for joining us!</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
