@@ -696,13 +696,13 @@ letters[1] = "bananas"
             <code class="ruby">
 letters = ["a","b","c","d"]
 
-letters.push("elephant")
+letters << "elephant" # alternatively letters.push("elephant")
 
 # letters now contains:
 ["a","b","c","d","elephant"]
             </code>
           </pre>
-          <p>The <strong>push</strong> method adds an element to the end of an array.</p>
+          <p>This is technically the <strong>push</strong> method, but when written as above, most people would say they are <strong>shoveling</strong> a string into the letters array. The <strong><<</strong> operator is known as the <strong>shovel operator</strong>.</p>
         </section>
 
         <section>
@@ -957,121 +957,147 @@ person[:sex]  # returns nil
 
         <section>
           <h2>Loops</h2>
-          <p>We will look at the syntax for two JavaScript <strong>loops</strong>:</p>
+          <p>We will look at the syntax for three Ruby <strong>loops</strong>:</p>
           <ul>
-            <li>for</li>
-            <li>while</li>
+            <li>times</li>
+            <li>each</li>
+            <li>map</li>
           </ul>
         </section>
 
         <section>
           <h2>Loops</h2>
-          <p>This is the syntax for a <strong>while loop</strong>.</p>
+          <p>This is the syntax for a <strong>times loop</strong>:</p>
           <pre>
-            <code class="javascript">
-var counter = 1;
-while (counter <= 10) {
-  console.log("I'm counting in multiples of five!");
-  console.log("Here's what's next: " + counter * 5)
-  counter++
-}
+            <code class="ruby">
+10.times do
+  puts "Hello!"
+end
+            </code>
+          </pre>
+          <p>The part from the `do` to the `end` is called a <strong>block</strong>.</p>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>If you want a counter with a <strong>times loop</strong>, you name a parameter inside the block like this:</p>
+          <pre>
+            <code class="ruby">
+10.times do |counter|
+  puts "Here we go. Let's count: #{counter}"
+end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Aside:</h2>
+          <h3>String interpolation</h3>
+          <p>If you want to insert Ruby code or the value of a variable inside a string, you do so with <strong>string interpolation</strong>.</p>
+        </section>
+
+        <section>
+          <h3>String interpolation</h3>
+          <p>This:</p>
+          <pre>
+            <code class="ruby">
+dog_speak = "woof!"
+puts "Dogs say #{dog_speak}"
+            </code>
+          </pre>
+          <p>is a shortcut for this:</p>
+          <pre>
+            <code class="ruby">
+dog_speak = "woof!"
+puts "Dogs say " + dog_speak
             </code>
           </pre>
         </section>
 
         <section>
           <h2>Loops</h2>
-          <p>Here's the same operation using a <strong>for loop</strong>.</p>
+          <p>One of the most common operations in Ruby is <strong>iterating over a collection</strong>. Here is how to iterate over an array using the <strong>each</strong> method:</p>
           <pre>
-            <code class="javascript">
-for (var counter = 1; counter <= 10; counter++) {
-  console.log("I'm counting in multiples of five!");
-  console.log("Here's what's next: " + counter * 5)
-}
+            <code class="ruby">
+greetings = ["hello", "kia ora", "aloha", "talofa", "malo"]
+
+greetings.each do |word|
+  puts "You can say hi by saying #{word}!"
+end
+            </code>
+          </pre>
+          <aside class="notes">Talk through the slide and point out what is going on on each line.</aside>
+        </section>
+
+        <section>
+          <h2>Loops</h2>
+          <p>A common pattern in Ruby is to transform every element in an array to something else. For example, if we to turn every greeting into all caps, we could do this:</p>
+          <pre>
+            <code class="ruby">
+greetings = ["hello", "kia ora", "aloha", "talofa", "malo"]
+
+shouty_greetings = []
+
+greetings.each do |word|
+  shouty_greetings << word.upcase
+end
+
+# shouty_greetings now contains:
+["HELLO", "KIA ORA", "ALOHA", "TALOFA", "MALO"]
+
+# and greetings still contains:
+["hello", "kia ora", "aloha", "talofa", "malo"]
             </code>
           </pre>
         </section>
 
         <section>
           <h2>Loops</h2>
-          <p>Compare the two:</p>
+          <p>In fact, this pattern of transforming every element of an array is so common, it has its own method called <strong>map</strong>.</p>
           <pre>
-            <code class="javascript">
-var counter = 1;
-while (counter <= 10) {
-  console.log("I'm counting in multiples of five!");
-  console.log("Here's what's next: " + counter * 5)
-  counter++
-}
-// -------------------------------------------------
+            <code class="ruby">
+greetings = ["hello", "kia ora", "aloha", "talofa", "malo"]
 
-for (var counter = 1; counter <= 10; counter++) {
-  console.log("I'm counting in multiples of five!");
-  console.log("Here's what's next: " + counter * 5)
-}
+shouty_greetings = greetings.map do |word|
+  word.upcase
+end
+
+# shouty_greetings contains:
+["HELLO", "KIA ORA", "ALOHA", "TALOFA", "MALO"]
+
+# and greetings contains:
+["hello", "kia ora", "aloha", "talofa", "malo"]
             </code>
           </pre>
         </section>
 
         <section>
-          <h2>Warning!</h2>
-          <p>Be careful not to code a loop that will never end. It will cause your browser to freeze and crash!</p>
+          <h2>Block style</h2>
+          <p>Remember the bit between the `do` and `end` is a <strong>block</strong>? If a block only has one line in it, you can write it like:</p>
           <pre>
-            <code class="javascript">
-// Don't run the following code!
-var counter = 1;
-while (counter <= 10) {
-  console.log("I'm counting in multiples of five!");
-  console.log("Here's what's next: " + counter * 5)
-}
+            <code class="ruby">
+greetings.each { |word| puts "You can say hi by saying #{word}!" }
+
+# compare curly braces above to do/end below:
+
+greetings.each do |word|
+  puts "You can say hi by saying #{word}!"
+end
             </code>
           </pre>
-          <p>This is called an <strong>infinite loop</strong>. Can you see why it never ends?</p>
+          <p>The code above and below the comment are the same. <strong>Curly braces</strong> and <strong>do/end</strong> are both ways to write blocks.</p>
         </section>
 
         <section>
-          <h2>Loops</h2>
-          <p>Here's a fun game with a <strong>while loop</strong>.</p>
+          <h2>Block style</h2>
+          <p>Here's an elegant version of our <strong>map method</strong>:</p>
           <pre>
-            <code class="javascript">
-var secretPhrase = "bananas"
-var userInput
-while (userInput !== secretPhrase) {
-  userInput = prompt("Haha! You will continue to get this annoying\
-  pop up until you guess the secret phrase!")
-}
-alert("Drat! You guessed it!")
+            <code class="ruby">
+greetings = ["hello", "kia ora", "aloha", "talofa", "malo"]
+
+shouty_greetings = greetings.map { |word| word.upcase }
             </code>
           </pre>
-        </section>
-
-        <section>
-          <h2>Loops</h2>
-          <p>The most common use of loops is to <strong>loop over collections</strong>. We loop over collections when we want to do something with every element in a collection.</p>
-        </section>
-
-        <section>
-          <h2>Loops</h2>
-          <p>Here's a <strong>for loop</strong> looping over and printing out every element in our letters array:</p>
-          <pre>
-            <code class="javascript">
-var letters = ["a","b","c","d","e","f","g","h"];
-for (var i = 0; i < letters.length; i++) {
-  console.log(letters[i]);
-}
-            </code>
-          </pre>
-          <p>There's a lot going on here. So let's talk through it.</p>
-        </section>
-
-        <section>
-          <h2>Try it yourself!</h2>
-          <p>Open up your handy dandy <strong>JavaScript console</strong> by pressing <span class="breakout">Cmd+Opt+J</span> on Mac or <span class="breakout">Ctrl+Shift+J</span> on other systems.</p>
-          <img src="img/javascript-console.jpg">
-          <aside class="notes">
-            Try looping over the list of people you made in our last breakout sesssion and printing out everyone's name AND their age...
-            You can paste your data structure into the console, or you can write your loop in the file on your desktop.
-          </aside>
         </section>
 
         <section>
@@ -1081,86 +1107,100 @@ for (var i = 0; i < letters.length; i++) {
 
         <section>
           <h2>Conditionals</h2>
-          <p>Maybe you need to check someone's age before you let them use your program:</p>
+          <p>Maybe you need to authenticate an administrator based on a password:</p>
           <pre>
-            <code class="javascript">
-var age = prompt("How old are you?");
-if (age >= 18) {
-  alert("Welcome to this program!")
-} else {
-  alert("Sorry, you must be 18 or over to use this program.")
-}
+            <code class="ruby">
+admin_password = "ilikepies"
+admin_logged_in = false
+
+puts "Please enter your password for admin access..."
+input = gets.chomp
+
+if input == admin_password
+  admin_logged_in = true
+  puts "Welcome to the system, administrator."
+else
+  puts "Sorry, that is not the password."
+end
+            </code>
+          </pre>
+          <aside class="notes">Talk through the if else pattern on the screen</aside>
+        </section>
+
+        <section>
+          <h2>Conditionals</h2>
+          <p>Perhaps we only want to make greetings starting with "K" all caps and reverse everything else...</p>
+          <pre>
+            <code class="ruby">
+greetings = ["hello", "kia ora", "aloha", "talofa", "malo"]
+
+wacky_greetings = []
+
+greetings.each do |word|
+  if word[0].downcase == "k"
+    wacky_greetings << word.upcase
+  else
+    wacky_greetings << word.reverse
+  end
+end
+
+# wacky_greetings now contains:
+["olleh", "KIA ORA", "ahola", "afolat", "olam"]
             </code>
           </pre>
         </section>
 
         <section>
-          <h2>Breaking it down</h2>
-          <p></p>
+          <h2>Methods</h2>
+        </section>
+
+        <section>
+          <h2>What is a method?</h2>
+          <p>A <strong>method</strong> is a selection of code that you can save and run later, potentially multiple times.</p>
+        </section>
+
+        <section>
+          <h2>Method syntax</h2>
+          <p>We <strong>define a method</strong> like this:</p>
           <pre>
-            <code class="javascript">
-if           // reserved word to start a condtional
-(age >= 18)  // the "condition"
-{}           // the "code block" to run if the condition is true
-else         // reserved word at the end of a conditional
-{}           // the code block to run if all conditions are false
+            <code class="ruby">
+def create_greeting(name)
+  return "Welcome to my website, #{name}!"
+end
             </code>
           </pre>
+          <p>This method takes a string as <strong>input</strong> and returns a different string as <strong>output</strong>.</p>
         </section>
 
         <section>
-          <h2>Functions</h2>
-        </section>
-
-        <section>
-          <h2>What is a function?</h2>
-          <p>A <strong>function</strong> is a selection of code that you can save and run later, potentially multiple times.</p>
-        </section>
-
-        <section>
-          <h2>Function syntax</h2>
-          <p>We <strong>define a function</strong> like this:</p>
+          <h2>Calling a method</h2>
+          <p>We <strong>call a method</strong> by typing its name, followed by parentheses if it takes <strong>arguments</strong>.</p>
           <pre>
-            <code class="javascript">
-var createGreeting = function(name) {
-  return "Welcome to my website, " + name;
-}
+            <code class="ruby">
+def create_greeting(name)
+  return "Welcome to my website, #{name}!"
+end
+
+create_greeting("Sam")     # returns "Welcome to my website, Sam!"
+
+create_greeting("Ashley")  # returns "Welcome to my website, Ashley!"
+
+create_greeting("David")   # returns "Welcome to my website, David!"
+
+create_greeting("Stranger").upcase
             </code>
           </pre>
-          <p>The code is now stored in the variable `createGreeting`. Now we can call this the <strong>createGreeting function</strong>.</p>
-        </section>
-
-        <section>
-          <h2>Calling a function</h2>
-          <p>We <strong>call a function</strong> by typing its name, followed by parentheses.</p>
-          <pre>
-            <code class="javascript">
-var createGreeting = function(name) {
-  return "Welcome to my website, " + name;
-}
-
-createGreeting("Sam")     // returns "Welcome to my website, Sam"
-
-createGreeting("Debbie")  // returns "Welcome to my website, Debbie"
-
-createGreeting("Britney") // returns "Welcome to my website, Britney"
-
-alert(createGreeting("Stranger"))
-            </code>
-          </pre>
-        </section>
-
-        <section>
-          <h2>Input and Output</h2>
-          <p>Functions allow us to <strong>input</strong> some data and <strong>output</strong> other data.</p>
+          <aside class="notes">What does that last line return?</aside>
         </section>
 
         <section>
           <h2>Arguments</h2>
-          <p>The input that we give to functions are called <strong>arguments</strong>.</p>
+          <p>The <strong>input</strong> that we give to methods are called <strong>arguments</strong>.</p>
           <pre>
-            <code class="javascript">
-var sum = function(num1, num2) {}
+            <code class="ruby">
+def sum(num1, num2)
+
+end
             </code>
           </pre>
           <p>`num1` and `num2` are the <strong>parameters</strong> in this function that show us that we can pass it two arguments.</p>
@@ -1170,25 +1210,37 @@ var sum = function(num1, num2) {}
           <h2>Return values</h2>
           <p>The output from a function is its <strong>return value</strong>.</p>
           <pre>
-            <code class="javascript">
-var sum = function(num1, num2) {
-  var result = num1 + num2;
-  return result;
-}
+            <code class="ruby">
+def sum(num1, num2)
+  return num1 + num2
+end
             </code>
           </pre>
           <p>Usually we manipulate our input in some useful way and then <strong>return</strong> that data.</p>
-          <aside class="notes">Note as in this example, a function can have multiple parameters. These parameters act as variables within the function and any arguments you pass to this function when you call it will be accessible inside those variables/parameters.</aside>
+          <aside class="notes">Note as in this example, a method can have multiple parameters. These parameters act as variables within the function and any arguments you pass to this function when you call it will be accessible via variables/parameters.</aside>
         </section>
 
         <section>
-          <h2>Functions</h2>
-          <p>Functions don't actually need parameters or a return statement. Here's an example:</p>
+          <h2>Return values</h2>
+          <p>Even if you don't specify the key word `return`, Ruby will always return the <strong>last line evaluated</strong> in a method. This is called <strong>implicit return</strong>. So this works:</p>
           <pre>
-            <code class="javascript">
-var woohoo = function() {
-  alert("WOOHOO!");
-}
+            <code class="ruby">
+def sum(num1, num2)
+  num1 + num2
+end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Methods</h2>
+          <p>Methods don't actually need parameters or a return statement. Here's an example:</p>
+          <pre>
+            <code class="ruby">
+def shout_something_random
+  random_phrases = ["kajinga", "hooty tooty", "meowzers", "zingpop"]
+  puts random_phrases.sample.upcase
+end
             </code>
           </pre>
         </section>
