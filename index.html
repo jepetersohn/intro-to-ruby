@@ -1490,6 +1490,44 @@ end
         </section>
 
         <section>
+          <h2>Sending tweets</h2>
+          <p>You'll notice there is already a form on the page. What happens right now when you try to submit that form?</p>
+          <img class="fragment" src="img/sinatra-ditty.jpg">
+        </section>
+
+        <section>
+          <h2>Sending tweets</h2>
+          <p>Let's write that route!</p>
+          <pre>
+            <code class="ruby">
+post '/' do
+  @client.update(reverse_words(params[:tweet]))
+  redirect '/'
+end
+            </code>
+          </pre>
+          <p>You'll notice this is a <strong>POST route</strong>. That's because we are creating something new: <strong>a tweet</strong>!</p>
+        </section>
+
+        <section>
+          <h2>Sending tweets</h2>
+          <pre>
+            <code class="ruby">
+post '/' do
+  @client.update(reverse_words(params[:tweet]))
+  redirect '/'
+end
+            </code>
+          </pre>
+          <p>There's some new syntax here, too:</p>
+          <ul>
+            <li>the data from our form gets stored in a hash called the <strong>params hash</strong></li>
+            <li>we are taking the data from the form, reversing the words and then using the Twitter gem to tweet it</li>
+            <li>the keyword <strong>redirect</strong> sends our server to run the code in our <strong>get '/'</strong> route.</li>
+          </ul>
+        </section>
+
+        <section>
           <h2>Resources to learn more</h2>
           <ul>
             <li>Codecademy</li>
