@@ -1246,18 +1246,49 @@ end
         </section>
 
         <section>
-          <h2>Try it yourself!</h2>
-          <p>Open up your handy dandy <strong>JavaScript console</strong> by pressing <span class="breakout">Cmd+Opt+J</span> on Mac or <span class="breakout">Ctrl+Shift+J</span> on other systems.</p>
-          <img src="img/javascript-console.jpg">
-          <aside class="notes">
-            Build a "triangle checker" function in your console.
+          <h2>Useful Ruby methods</h2>
+          <p>Here are a few useful methods already built into Ruby:</p>
+          <pre>
+            <code class="ruby">
+"this was a string".split # => ["this","was","a","string"]
+
+["this","was","an","array"].join # => "thiswasanarray"
+
+["this","was","an","array"].join("-") # => "this-was-an-array"
+
+# and a few we already saw:
+
+"quiet library voice".upcase # => "QUIET LIBRARY VOICE"
+
+"bolton".reverse # => "notlob"
+
+["luck", "of", "the", "draw"].sample # => a randomly chosen element
+
+["hey", "hi", "yo"].map { |word| word.upcase } # => ["HEY", "HI", "YO"]
+            </code>
+          </pre>
+          <p>You will find many more great examples in the <strong>Ruby Docs</strong>.</p>
+          <aside class="notes">You'll also find these methods on your reference sheet.</aside>
+        </section>
+
+        <section>
+          <h2>Challenge</h2>
+          <p>Create a method called `reverse_words` that reverses every word in a string. For example:</p>
+          <pre>
+            <code class="ruby">
+# INPUT:
+"I'd like to buy an apple"
+
+# OUTPUT:
+"d'I ekil ot yub na elppa"
+            </code>
+          </pre>
             <ul>
-              <li>It should take three arguments</li>
-              <li>Each of those arguments represents an angle</li>
-              <li>If those three numbers add up to 180, then return true</li>
-              <li>If those three numbers don't add up to 180, then return false</li>
+              <li>It should accept a string as an argument</li>
+              <li>It should return a string</li>
+              <li><strong>Stretch goal:</strong> don't reverse words that start with "@" or "#" or "http"</li>
+              <li><strong>Super stretch:</strong> instead of reversing words, apply pig latin rules to them</li>
             </ul>
-          </aside>
         </section>
 
         <section>
